@@ -5,6 +5,4 @@ import org.springframework.stereotype.Repository;
 import ru.honorozor.secretsanta.model.Game;
 
 @Repository
-public interface GameRepository extends JpaRepository<Game, Long> {
-
-}
+public interface GameRepository extends JpaRepository<Game, Long> { }
