@@ -17,13 +17,12 @@ public class MailTaskService {
     }
 
     public void create(List<User> users) {
-        for (User user : users) {
-            final MailTask mailTask = MailTask.builder()
-                    .to(user.getEmail())
-                    .text(String.format("Поздравляем , Dы дарите подарок: %s", user.getEmailToBuyGift()))
-                    .build();
-            create(mailTask);
-        }
+        users.stream()
+                .map(user -> MailTask.builder()
+                        .to(user.getEmail())
+                        .text(String.format("Поздравляем , Вы дарите подарок: %s", user.getEmailToBuyGift()))
+                        .build())
+                .forEach(this::create);
     }
 
     public void create(MailTask mailTask) {
@@ -34,7 +33,7 @@ public class MailTaskService {
         mailRepository.save(mailTask);
     }
 
-    public List<MailTask> findAll(){
-       return mailRepository.findAll();
+    public List<MailTask> findAll() {
+        return mailRepository.findAll();
     }
 }

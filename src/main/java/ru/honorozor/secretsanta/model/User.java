@@ -17,16 +17,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Long userId;
+    private Long id;
 
     @Column(name = "name", length = 50)
     private String name;
 
     @Column(name = "email", length = 50)
     private String email;
-
-    @Column(name = "isCreator")
-    private Boolean isCreator = false;
 
     @Column(name = "emailToBuyGift")
     private String emailToBuyGift;

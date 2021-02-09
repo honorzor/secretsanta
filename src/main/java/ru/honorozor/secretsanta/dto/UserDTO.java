@@ -10,11 +10,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
+
+    private Long id;
+
     private String name;
 
     private String email;
-
-    private Boolean isCreator = false;
 
     private String toBuyGift;
 

@@ -20,11 +20,12 @@ public class GameService {
     private final GameRepository gameRepository;
     private final GiftStrategySelector giftStrategySelector;
     private final MailTaskService mailTaskService;
+    private final UserConverter userConverter;
 
     public void createGame(GameDTO gameDTO) {
         final List<UserDTO> players = gameDTO.getUsers();
 
-        final List<User> users = UserConverter.toEntities(players);
+        final List<User> users = userConverter.toEntities(players);
 
         final UserGiftSelector userGiftSelector = giftStrategySelector.getUserGiftSelector(gameDTO.isFilter());
 
