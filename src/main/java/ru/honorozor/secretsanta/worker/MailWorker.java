@@ -30,9 +30,9 @@ public class MailWorker {
             simpleMailMessage.setFrom("ioanntrapeznikov@gmail.com");
             simpleMailMessage.setTo(mailTask.getTo());
             simpleMailMessage.setText(mailTask.getText());
+            javaMailSender.send(simpleMailMessage);
             mailTask.setIsSend(true);
             mailRepository.save(mailTask);
-            javaMailSender.send(simpleMailMessage);
         }
     }
 }
