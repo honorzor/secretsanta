@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories
 @SpringBootApplication
-public class SecretsantaApplication {
+public class SecretSantaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SecretsantaApplication.class, args);
+        SpringApplication.run(SecretSantaApplication.class, args);
     }
 
 }
