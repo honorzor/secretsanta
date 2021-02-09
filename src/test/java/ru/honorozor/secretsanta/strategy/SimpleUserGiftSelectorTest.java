@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 class SimpleUserGiftSelectorTest {
 
-    private final UserGiftSelector filterUserGiftSelector = new SimpleUserGiftSelector();
+    private final UserGiftSelector simpleUserGiftSelector = new SimpleUserGiftSelector();
 
     @Test
     public void shouldSendPrizesToAll() {
@@ -22,7 +22,7 @@ class SimpleUserGiftSelectorTest {
                         .build())
                 .collect(Collectors.toList());
 
-        filterUserGiftSelector.setGifts(users);
+        simpleUserGiftSelector.setGifts(users);
 
         allUsersHaveRecipients(users);
         recipientsNotRepeat(users);
