@@ -1,6 +1,5 @@
 package ru.honorozor.secretsanta.service;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,9 @@ public class MailService {
 
     private final JavaMailSenderImpl javaMailSender;
 
-    public MailService(@Qualifier("getJavaMailSenderImpl") JavaMailSenderImpl javaMailSender) {
+    public MailService(JavaMailSenderImpl javaMailSender) {
         this.javaMailSender = javaMailSender;
-        }
+    }
 
     public void send(Game game) {
         final List<User> users = game.getUsers();

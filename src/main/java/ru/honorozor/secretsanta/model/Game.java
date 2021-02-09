@@ -22,6 +22,6 @@ public class Game {
 
 
     @Column(name = "users")
-    @OneToMany(mappedBy = "game" , fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<User> users;
 }
