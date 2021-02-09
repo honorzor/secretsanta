@@ -1,4 +1,4 @@
-package ru.honorozor.secretsanta.settings;
+package ru.honorozor.secretsanta.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Getter
 @NoArgsConstructor
-public class EmailSetting {
+public class MailConfiguration {
     private String auth;
     private String starttlsEnable;
     private String host;

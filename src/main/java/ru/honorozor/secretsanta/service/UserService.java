@@ -17,7 +17,7 @@ public class UserService {
     private final GameRepository gameRepository;
 
     public List<User> getAllUsersByGameId(Long id) {
-        return userRepository.findAllUsersByGameId(id);
+        return userRepository.findAllByGame_Id(id);
 
     }
 
