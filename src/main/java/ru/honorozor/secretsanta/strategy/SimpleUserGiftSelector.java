@@ -15,7 +15,7 @@ public class SimpleUserGiftSelector implements UserGiftSelector {
     public void setGifts(List<User> users) {
         Collections.shuffle(users);
         for (int i = 0; i < users.size(); i++) {
-            if (i == users.size() - 1){
+            if (i == users.size() - 1) {
                 users.get(users.size() - 1).setEmailToBuyGift(users.get(0).getEmail());
                 break;
             }

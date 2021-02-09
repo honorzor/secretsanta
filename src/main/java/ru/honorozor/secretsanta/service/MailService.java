@@ -15,7 +15,7 @@ public class MailService {
 
     public MailService(JavaMailSenderImpl javaMailSender) {
         this.javaMailSender = javaMailSender;
-        }
+    }
 
     public void send(Game game) {
         final List<User> users = game.getUsers();

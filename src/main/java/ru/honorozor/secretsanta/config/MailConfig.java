@@ -17,7 +17,7 @@ public class MailConfig {
     }
 
     @Bean
-    public JavaMailSenderImpl getJavaMailSenderImpl (){
+    public JavaMailSenderImpl getJavaMailSenderImpl() {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(emailSetting.getHost());
         javaMailSender.setPort(emailSetting.getPort());
@@ -30,8 +30,8 @@ public class MailConfig {
 
     private Properties getProps() {
         Properties mailProp = new Properties();
-        mailProp.setProperty("mail.smtp.auth",emailSetting.getAuth());
-        mailProp.setProperty("mail.smtp.starttls.enable",emailSetting.getStarttlsEnable());
+        mailProp.setProperty("mail.smtp.auth", emailSetting.getAuth());
+        mailProp.setProperty("mail.smtp.starttls.enable", emailSetting.getStarttlsEnable());
         return mailProp;
     }
 }

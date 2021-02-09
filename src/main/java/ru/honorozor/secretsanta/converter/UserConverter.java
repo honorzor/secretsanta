@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class UserConverter {
 
-    public static User toEntity(UserDTO userDTO){
+    public static User toEntity(UserDTO userDTO) {
         return User.builder()
                 .email(userDTO.getEmail())
                 .name(userDTO.getName())
@@ -16,7 +16,7 @@ public class UserConverter {
                 .build();
     }
 
-    public static List<User> toEntities(List<UserDTO> users){
+    public static List<User> toEntities(List<UserDTO> users) {
         return users.stream()
                 .map(UserConverter::toEntity)
                 .collect(Collectors.toList());
