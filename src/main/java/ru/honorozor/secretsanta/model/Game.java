@@ -20,7 +20,6 @@ public class Game {
     @Column(name = "game_id")
     private Long id;
 
-
     @Column(name = "users")
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<User> users;

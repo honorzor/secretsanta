@@ -19,7 +19,7 @@ public class GameService {
 
     private final GameRepository gameRepository;
     private final GiftStrategySelector giftStrategySelector;
-    private final MailService mailService;
+    private final MailTaskService mailTaskService;
 
     public void createGame(GameDTO gameDTO) {
         final List<UserDTO> players = gameDTO.getUsers();
@@ -35,8 +35,7 @@ public class GameService {
                 .build();
 
         users.forEach(user -> user.setGame(game));
-
-        final Game savedGame = gameRepository.save(game);
-        mailService.send(savedGame);
+        gameRepository.save(game);
+        mailTaskService.create(users);
     }
 }
