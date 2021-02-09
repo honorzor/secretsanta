@@ -9,7 +9,8 @@ spring:
     url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useLegacyDatetimeCode=false
     username: root
     password: root
-
+  main:
+    lazy-initialization: true
 mail:
   smtp:
     host: smtp.gmail.com
