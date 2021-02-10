@@ -19,3 +19,5 @@ mail:
     auth: true
     starttlsEnable: true
     protocol: smtp
+server:
+  port: 8081
