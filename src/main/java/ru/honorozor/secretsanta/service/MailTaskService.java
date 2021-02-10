@@ -1,6 +1,7 @@
 package ru.honorozor.secretsanta.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.honorozor.secretsanta.model.MailTask;
 import ru.honorozor.secretsanta.model.User;
 import ru.honorozor.secretsanta.repository.MailRepository;
@@ -16,6 +17,7 @@ public class MailTaskService {
         this.mailRepository = mailRepository;
     }
 
+    @Transactional
     public void create(List<User> users) {
         users.stream()
                 .map(user -> MailTask.builder()
@@ -25,6 +27,7 @@ public class MailTaskService {
                 .forEach(this::create);
     }
 
+    @Transactional
     public void create(MailTask mailTask) {
         save(mailTask);
     }
