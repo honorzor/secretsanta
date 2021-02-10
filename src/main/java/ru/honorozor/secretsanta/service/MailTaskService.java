@@ -1,5 +1,6 @@
 package ru.honorozor.secretsanta.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.honorozor.secretsanta.model.MailTask;
@@ -9,20 +10,18 @@ import ru.honorozor.secretsanta.repository.MailRepository;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MailTaskService {
 
     private final MailRepository mailRepository;
-
-    public MailTaskService(MailRepository mailRepository) {
-        this.mailRepository = mailRepository;
-    }
+    private final TextService textService;
 
     @Transactional
     public void create(List<User> users) {
         users.stream()
                 .map(user -> MailTask.builder()
                         .to(user.getEmail())
-                        .text(String.format("Поздравляем , Вы дарите подарок: %s", user.getEmailToBuyGift()))
+                        .text(textService.createText(user, users))
                         .build())
                 .forEach(this::create);
     }

@@ -18,12 +18,14 @@ class UserConverterTest {
         final String filter1 = "filter@mai.ru";
         final String filter2 = "filter2@mail.ru";
         final String name = "test";
+        final List<String> wishes = List.of("test");
         final String toBuyGift = "test2@mail.ru";
         final long id = 1L;
 
         final UserDTO userDTO = UserDTO.builder()
                 .email(email)
                 .id(id)
+                .wishes(wishes)
                 .filter(List.of(filter1, filter2))
                 .name(name)
                 .toBuyGift(toBuyGift)
@@ -36,6 +38,7 @@ class UserConverterTest {
         assertEquals(name, user.getName());
         assertEquals(toBuyGift, user.getEmailToBuyGift());
         assertEquals(id, user.getId());
+        assertEquals(wishes.toString(), user.getWishes());
     }
 
 }
