@@ -8,12 +8,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ContextConfiguration(
         initializers = TestWithMysqlContainer.Initializer.class
 )
 @ActiveProfiles("test")
 @NoArgsConstructor
+@Testcontainers
 public class TestWithMysqlContainer {
 
     @Container

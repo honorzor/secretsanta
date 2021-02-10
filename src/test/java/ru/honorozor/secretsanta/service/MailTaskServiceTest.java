@@ -9,7 +9,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.honorozor.secretsanta.container.TestWithMysqlContainer;
 import ru.honorozor.secretsanta.model.MailTask;
 import ru.honorozor.secretsanta.model.User;
@@ -20,7 +19,6 @@ import java.util.List;
 @SpringBootTest
 @ActiveProfiles("test")
 @ExtendWith(value = SpringExtension.class)
-@Testcontainers
 class MailTaskServiceTest extends TestWithMysqlContainer {
 
     @Autowired

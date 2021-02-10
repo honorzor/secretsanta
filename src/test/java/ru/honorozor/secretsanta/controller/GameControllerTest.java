@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import ru.honorozor.secretsanta.container.TestWithMysqlContainer;
 import ru.honorozor.secretsanta.dto.GameDTO;
 import ru.honorozor.secretsanta.dto.UserDTO;
 
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 @ActiveProfiles({"test"})
 @ExtendWith(value = SpringExtension.class)
-class GameControllerTest {
+class GameControllerTest extends TestWithMysqlContainer {
 
     @Autowired
     private MockMvc mockMvc;
