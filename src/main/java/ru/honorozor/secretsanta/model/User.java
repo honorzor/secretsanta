@@ -31,6 +31,9 @@ public class User {
     @Column(name = "filter")
     private String filter;
 
+    @Column(name = "wishes")
+    private String wishes;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
     private Game game;

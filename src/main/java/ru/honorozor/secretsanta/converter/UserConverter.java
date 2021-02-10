@@ -14,6 +14,7 @@ public class UserConverter {
         return User.builder()
                 .id(userDTO.getId())
                 .email(userDTO.getEmail())
+                .wishes(userDTO.getWishes().toString())
                 .name(userDTO.getName())
                 .filter(userDTO.getFilter() == null ? null : userDTO.getFilter().toString())
                 .emailToBuyGift(userDTO.getToBuyGift())

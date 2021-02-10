@@ -21,4 +21,5 @@ public class UserDTO {
 
     private List<String> filter;
 
+    private List<String> wishes;
 }
