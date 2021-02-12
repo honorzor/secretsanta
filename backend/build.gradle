@@ -13,6 +13,9 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
+ext {
+    mapstructVersion = "1.4.2.Final"
+}
 
 repositories {
     mavenCentral()
@@ -21,17 +24,20 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.4.1'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile group: 'org.testcontainers', name: 'mysql', version: '1.15.1'
     testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: '1.15.1'
 
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 }
 
 test {

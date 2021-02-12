@@ -2,6 +2,7 @@ package ru.honorozor.secretsanta.converter;
 
 import org.junit.jupiter.api.Test;
 import ru.honorozor.secretsanta.dto.UserDTO;
+import ru.honorozor.secretsanta.mapper.UserMapper;
 import ru.honorozor.secretsanta.model.User;
 
 import java.util.List;
@@ -9,8 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserConverterTest {
-
-    private final UserConverter userConverter = new UserConverter();
+    private final UserMapper mapper = UserMapper.INSTANCE;
 
     @Test
     public void shouldConvertToEntity() {
@@ -29,10 +29,10 @@ class UserConverterTest {
                 .toBuyGift(toBuyGift)
                 .build();
 
-        final User user = userConverter.toEntity(userDTO);
+        final User user = mapper.toEntity(userDTO);
 
         assertEquals(email, user.getEmail());
-        assertEquals(List.of(filter1, filter2).toString(), user.getFilter());
+        assertEquals(filter1 + "," + filter2, user.getFilter());
         assertEquals(name, user.getName());
         assertEquals(toBuyGift, user.getEmailToBuyGift());
         assertEquals(id, user.getId());

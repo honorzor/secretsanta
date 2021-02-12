@@ -2,9 +2,8 @@ package ru.honorozor.secretsanta.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.honorozor.secretsanta.converter.UserConverter;
 import ru.honorozor.secretsanta.dto.GameDTO;
-import ru.honorozor.secretsanta.dto.UserDTO;
+import ru.honorozor.secretsanta.mapper.UserMapper;
 import ru.honorozor.secretsanta.model.Game;
 import ru.honorozor.secretsanta.model.User;
 import ru.honorozor.secretsanta.repository.GameRepository;
@@ -20,12 +19,9 @@ public class GameService {
     private final GameRepository gameRepository;
     private final GiftStrategySelector giftStrategySelector;
     private final MailTaskService mailTaskService;
-    private final UserConverter userConverter;
 
     public void createGame(GameDTO gameDTO) {
-        final List<UserDTO> players = gameDTO.getUsers();
-
-        final List<User> users = userConverter.toEntities(players);
+        final List<User> users = UserMapper.INSTANCE.toEntities(gameDTO.getUsers());
 
         final UserGiftSelector userGiftSelector = giftStrategySelector.getUserGiftSelector(gameDTO.isFilter());
 
