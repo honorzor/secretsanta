@@ -10,6 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserConverterTest {
+    private final UserMapper mapper = UserMapper.INSTANCE;
 
     @Test
     public void shouldConvertToEntity() {
@@ -28,10 +29,10 @@ class UserConverterTest {
                 .toBuyGift(toBuyGift)
                 .build();
 
-        final User user = UserMapper.mapper.userDtoToEntity(userDTO);
+        final User user = mapper.toEntity(userDTO);
 
         assertEquals(email, user.getEmail());
-        assertEquals(filter1 + "," +filter2, user.getFilter());
+        assertEquals(filter1 + "," + filter2, user.getFilter());
         assertEquals(name, user.getName());
         assertEquals(toBuyGift, user.getEmailToBuyGift());
         assertEquals(id, user.getId());

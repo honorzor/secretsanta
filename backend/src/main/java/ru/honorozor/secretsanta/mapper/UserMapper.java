@@ -1,32 +1,40 @@
 package ru.honorozor.secretsanta.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 import ru.honorozor.secretsanta.dto.UserDTO;
 import ru.honorozor.secretsanta.model.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper mapper = Mappers.getMapper(UserMapper.class);
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mappings({
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "filter", target = "filter"),
-            @Mapping(source = "toBuyGift", target = "emailToBuyGift")
+            @Mapping(source = "filter", target = "filter", qualifiedByName = "listToString"),
+            @Mapping(source = "toBuyGift", target = "emailToBuyGift"),
+            @Mapping(target = "game", ignore = true)
     })
-    User userDtoToEntity(UserDTO userDto);
+    User toEntity(UserDTO user);
 
-    @IterableMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
-    List<User> usersDtoToEntities(List<UserDTO> usersInGame);
-
-    default String map(List<String> past) {
-        if (past != null) {
-            return String.join(",", past);
-        }
-        return "";
+    default List<User> toEntities(List<UserDTO> users) {
+        return users.stream()
+                .map(this::toEntity)
+                .collect(Collectors.toList());
     }
+
+    @Named("listToString")
+    static String listToString(List<String> filter) {
+        if (filter == null){
+            return "";
+        }
+        return String.join(",", filter);
+    }
+
 }
