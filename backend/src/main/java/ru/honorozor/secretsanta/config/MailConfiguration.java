@@ -21,4 +21,5 @@ public class MailConfiguration {
     private String username;
     private String password;
     private String protocol;
+    private String defaultSender;
 }

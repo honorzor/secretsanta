@@ -19,5 +19,6 @@ mail:
     auth: true
     starttlsEnable: true
     protocol: smtp
+    defaultSender: ioanntrapeznikov@gmail.com
 server:
   port: 8081

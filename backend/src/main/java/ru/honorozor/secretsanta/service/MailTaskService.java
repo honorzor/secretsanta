@@ -28,6 +28,12 @@ public class MailTaskService {
     }
 
     @Transactional
+    public void markAsSend(MailTask task){
+        task.setIsSend(true);
+        save(task);
+    }
+
+    @Transactional
     public void create(MailTask mailTask) {
         save(mailTask);
     }
@@ -38,5 +44,9 @@ public class MailTaskService {
 
     public List<MailTask> findAll() {
         return mailRepository.findAll();
+    }
+
+    public List<MailTask> findAllByIsSendFalse() {
+        return mailRepository.findAllByIsSendFalse();
     }
 }
