@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secret-santa-api-deployment
+spec:
+  selector:
+    matchLabels:
+      app: secret-santa-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: secret-santa-api
+    spec:
+      containers:
+        - name: secret-santa-api
+          image: jsaymynamej/secret-santa-api:1.0.316_dev
+          ports:
+            - containerPort: 8081
