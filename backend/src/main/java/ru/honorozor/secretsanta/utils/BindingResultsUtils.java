@@ -8,7 +8,7 @@ public class BindingResultsUtils {
 
     public static String convertErrorsToString(BindingResult bindingResult) {
         return bindingResult.getFieldErrors().stream()
-                .map(fieldError -> fieldError.getField() + " : " + fieldError.getDefaultMessage())
+                .map(fieldError -> fieldError.getField() + " : " + fieldError.getDefaultMessage() + ".\n")
                 .collect(Collectors.joining());
     }
 }

@@ -1,8 +1,8 @@
 package ru.honorozor.secretsanta.dto;
 
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -12,10 +12,10 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Validated
 public class GameDTO {
 
     @NotEmpty
     @Size(min = 2, max = 10)
+    @Valid
     private Set<UserDTO> players;
 }
