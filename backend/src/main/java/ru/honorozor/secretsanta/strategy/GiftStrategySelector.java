@@ -18,7 +18,7 @@ public class GiftStrategySelector {
         ));
     }
 
-    public UserGiftSelector getUserGiftSelector(boolean isFilter) {
-        return isFilter ? strategies.get(UserGiftType.FILTER) : strategies.get(UserGiftType.SIMPLE);
+    public UserGiftSelector getUserGiftSelector(UserGiftType giftType) {
+        return strategies.get(giftType);
     }
 }

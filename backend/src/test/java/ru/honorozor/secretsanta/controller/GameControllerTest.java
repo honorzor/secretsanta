@@ -35,7 +35,6 @@ class GameControllerTest extends TestWithMysqlContainer {
     @Test
     public void shouldCreateGame() throws Exception {
         final GameDTO gameDTO = GameDTO.builder()
-                .filter(false)
                 .users(List.of(
                         UserDTO.builder()
                                 .name("test")

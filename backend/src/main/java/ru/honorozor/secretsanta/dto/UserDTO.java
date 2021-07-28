@@ -1,8 +1,7 @@
 package ru.honorozor.secretsanta.dto;
 
 import lombok.*;
-
-import java.util.List;
+import org.springframework.lang.NonNull;
 
 @Builder
 @Getter
@@ -11,14 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTO {
 
-    private Long id;
-
+    @NonNull
     private String name;
 
+    @NonNull
     private String email;
-
-    private String toBuyGift;
-
-    private List<String> filter;
 
 }

@@ -3,6 +3,7 @@ package ru.honorozor.secretsanta.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.honorozor.secretsanta.dto.GameDTO;
+import ru.honorozor.secretsanta.enums.UserGiftType;
 import ru.honorozor.secretsanta.mapper.UserMapper;
 import ru.honorozor.secretsanta.model.Game;
 import ru.honorozor.secretsanta.model.User;
@@ -11,6 +12,7 @@ import ru.honorozor.secretsanta.strategy.GiftStrategySelector;
 import ru.honorozor.secretsanta.strategy.UserGiftSelector;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +25,13 @@ public class GameService {
     public void createGame(GameDTO gameDTO) {
         final List<User> users = UserMapper.INSTANCE.toEntities(gameDTO.getUsers());
 
-        final UserGiftSelector userGiftSelector = giftStrategySelector.getUserGiftSelector(gameDTO.isFilter());
+        final UserGiftSelector userGiftSelector = giftStrategySelector.getUserGiftSelector(UserGiftType.SIMPLE);
 
         userGiftSelector.setGifts(users);
 
         final Game game = Game.builder()
                 .users(users)
+                .name(UUID.randomUUID().toString())
                 .build();
 
         users.forEach(user -> user.setGame(game));

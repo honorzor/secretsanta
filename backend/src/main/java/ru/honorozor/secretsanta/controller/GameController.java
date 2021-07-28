@@ -1,11 +1,10 @@
 package ru.honorozor.secretsanta.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import ru.honorozor.secretsanta.dto.GameDTO;
 import ru.honorozor.secretsanta.service.GameService;
 
@@ -17,8 +16,9 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> create(@RequestBody GameDTO gameDTO) {
+    @CrossOrigin(origins = "http://localhost:8080")
+    public ResponseEntity<String> create(@RequestBody @Validated GameDTO gameDTO) {
         gameService.createGame(gameDTO);
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.ok(HttpStatus.OK.getReasonPhrase());
     }
 }
