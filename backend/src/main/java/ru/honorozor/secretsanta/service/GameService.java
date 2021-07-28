@@ -23,7 +23,7 @@ public class GameService {
     private final MailTaskService mailTaskService;
 
     public void createGame(GameDTO gameDTO) {
-        final List<User> users = UserMapper.INSTANCE.toEntities(gameDTO.getUsers());
+        final List<User> users = UserMapper.INSTANCE.toEntities(gameDTO.getPlayers());
 
         final UserGiftSelector userGiftSelector = giftStrategySelector.getUserGiftSelector(UserGiftType.SIMPLE);
 

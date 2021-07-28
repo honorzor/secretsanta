@@ -1,19 +1,23 @@
 package ru.honorozor.secretsanta.dto;
 
 import lombok.*;
-import org.springframework.lang.NonNull;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class UserDTO {
 
-    @NonNull
+    @NotNull
     private String name;
 
-    @NonNull
+    @NotNull
+    @Email
     private String email;
 
 }

@@ -8,6 +8,7 @@ import ru.honorozor.secretsanta.dto.UserDTO;
 import ru.honorozor.secretsanta.model.User;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -20,7 +21,7 @@ public interface UserMapper {
     })
     User toEntity(UserDTO user);
 
-    default List<User> toEntities(List<UserDTO> users) {
+    default List<User> toEntities(Set<UserDTO> users) {
         return users.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());
