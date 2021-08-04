@@ -16,7 +16,7 @@ import ru.honorozor.secretsanta.dto.GameDTO;
 import ru.honorozor.secretsanta.dto.UserDTO;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -35,7 +35,7 @@ class GameControllerTest extends TestWithMysqlContainer {
     @Test
     public void shouldCreateGame() throws Exception {
         final GameDTO gameDTO = GameDTO.builder()
-                .users(List.of(
+                .players(Set.of(
                         UserDTO.builder()
                                 .name("test")
                                 .email("test@mail.ru")
