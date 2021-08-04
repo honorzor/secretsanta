@@ -1,4 +1,4 @@
-#YOU SHOULD FILL PASSWORD FOR WORKING
+#YOU SHOULD CREATE application.yml file and  FILL PASSWORD FOR WORKING
 spring:
   jpa:
     hibernate:
