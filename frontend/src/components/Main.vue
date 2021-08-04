@@ -14,10 +14,15 @@
     <div class="row">
       <div class="col-12">
 
+        <div class="button">
+          <router-link class="button" to="/information">О нас</router-link>
+          <router-view></router-view>
+        </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" v-show="$route.path ==='/'">
+
       <div class="col block">
         <div class="search">
           <div class="players">
@@ -30,16 +35,17 @@
             <input type="button" @click="createGame" class="double-border-button" value="Создать игру">
           </div>
         </div>
+
       </div>
 
     </div>
 
     <div class="footer row">
       <div class="col-8 block footer-1">
-<!--        footer-->
+        <!--        footer-->
       </div>
       <div class="col-4 block footer-2">
-<!--        footer-->
+        <!--        footer-->
       </div>
     </div>
   </div>
@@ -52,6 +58,7 @@
 <script>
 import {User} from "@/dto/User";
 import axios from "axios"
+import {handleCreateGameResponse} from "@/util/ReponseUtil";
 
 export default {
   name: 'Main',
@@ -71,6 +78,7 @@ export default {
       const users = this.$el.querySelectorAll('.user');
 
       const names = Array.from(users)
+          .filter(e => e.value !== '' && e.value !== 'undefined')
           .map(e => new User(e.value, e.value))
 
       const game = {
@@ -78,9 +86,10 @@ export default {
       }
 
       axios.post("http://localhost:8081/game/create", game)
-          .then(e => alert("игра создана, ответ от сервера: " + e))
-          .catch(e => alert("Ошибка: " + e))
+          .then(e => alert(handleCreateGameResponse(e)))
+          .catch(response => console.log(JSON.stringify(response.data)))
     }
+
   }
 }
 </script>
@@ -99,6 +108,7 @@ export default {
   font-family: 'Montserrat', sans-serif;
   transition: .4s;
 }
+
 .double-border-button:after {
   content: "";
   position: absolute;
@@ -112,11 +122,13 @@ export default {
   border: 2px solid rgba(0, 0, 0, 0);
   transition: .4s;
 }
+
 .double-border-button:hover:after {
   border-color: #f1c40f;
   width: calc(100% - 10px);
   height: calc(100% + 10px);
 }
+
 .custom-input {
   width: 240px;
 }
@@ -148,4 +160,13 @@ export default {
   height: 100px;
 }
 
+.button {
+  width: 150px;
+  text-decoration: none;
+  margin: 15px;
+  background-color: #00416a;
+  border-radius: 5px;
+  text-align: center;
+  border: 2px solid #00416a;
+}
 </style>
