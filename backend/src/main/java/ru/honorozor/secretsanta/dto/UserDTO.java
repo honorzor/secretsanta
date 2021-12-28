@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 public class UserDTO {
 
+    private boolean isCreator;
+
     @NotNull
     private String name;
 

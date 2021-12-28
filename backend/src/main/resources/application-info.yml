@@ -5,9 +5,9 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useLegacyDatetimeCode=false
+    url: jdbc:postgresql://localhost:5432/customers
     username: root
     password: root
 

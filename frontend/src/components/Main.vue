@@ -31,21 +31,17 @@
             </div>
           </div>
           <div class="create-button">
-            <input type="button" @click="add" class="double-border-button" value="Добавить">
-            <input type="button" @click="createGame" class="double-border-button" value="Создать игру">
+            <input type="button" @click="createEmptyGame" class="double-border-button" value="Создать игру">
+            <input type="button" @click="createGame" class="double-border-button" value="Присоединиться">
           </div>
         </div>
-
       </div>
-
     </div>
 
     <div class="footer row">
       <div class="col-8 block footer-1">
-        <!--        footer-->
       </div>
       <div class="col-4 block footer-2">
-        <!--        footer-->
       </div>
     </div>
   </div>
@@ -56,38 +52,25 @@
 </template>
 
 <script>
-import {User} from "@/dto/User";
-import axios from "axios"
-import {handleCreateGameResponse} from "@/util/ReponseUtil";
+
+import {connect, createGame, joinGame} from "@/util/WSUtil";
 
 export default {
   name: 'Main',
+  mounted() {
+    connect()
+  },
   props: {
     msg: String
   },
   methods: {
-    add: function () {
-      const player = this.$el.querySelector(".player").cloneNode(true);
-      //TODO FIX LATER
-      const inputText = player.lastChild;
-      inputText.value = ""
-      const players = this.$el.querySelector(".players");
-      players.appendChild(player)
+    createEmptyGame: function () {
+      const user = this.$el.querySelector('.user');
+      createGame(user.value)
     },
     createGame: function () {
-      const users = this.$el.querySelectorAll('.user');
-
-      const names = Array.from(users)
-          .filter(e => e.value !== '' && e.value !== 'undefined')
-          .map(e => new User(e.value, e.value))
-
-      const game = {
-        players: names
-      }
-
-      axios.post("http://localhost:8081/game/create", game)
-          .then(e => alert(handleCreateGameResponse(e)))
-          .catch(response => console.log(JSON.stringify(response.data)))
+      const uuid = this.$el.querySelector('.user');
+      joinGame(uuid)
     }
 
   }

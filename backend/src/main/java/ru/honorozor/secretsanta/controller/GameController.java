@@ -1,33 +1,27 @@
 package ru.honorozor.secretsanta.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.honorozor.secretsanta.dto.GameDTO;
-import ru.honorozor.secretsanta.dto.Response;
 import ru.honorozor.secretsanta.service.GameService;
 
 import javax.validation.Valid;
 
-import static ru.honorozor.secretsanta.utils.BindingResultsUtils.convertErrorsToString;
-
 @RestController
 @RequestMapping(value = "/game")
 @RequiredArgsConstructor
-public class GameController {
+public class GameController extends AdviceGameController {
 
     private final GameService gameService;
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1"})
-    public Response create(@Valid @RequestBody GameDTO gameDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            final String convertErrorsToString = convertErrorsToString(bindingResult);
-            return Response.fail(convertErrorsToString);
-        }
+    public ResponseEntity<String> create(@Valid @RequestBody GameDTO gameDTO) {
         gameService.createGame(gameDTO);
-        return Response.ok("OK");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
