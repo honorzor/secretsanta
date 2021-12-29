@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import ru.honorozor.secretsanta.dto.JoinDTO;
+import ru.honorozor.secretsanta.dto.GameDTO;
+import ru.honorozor.secretsanta.dto.JoinRequestDTO;
 import ru.honorozor.secretsanta.dto.UserDTO;
 import ru.honorozor.secretsanta.service.GameService;
 
@@ -15,15 +16,21 @@ public class WSGameController {
 
     @MessageMapping("/create-game")
     @SendTo("/topic/game-info")
-    public String createGame(final UserDTO creator) {
-        gameService.createEmptyGame(creator);
-        return "Игрок создал новую игру:" + gameService.createEmptyGame(creator);
+    public GameDTO createGame(final UserDTO creator) {
+        return gameService.start(creator);
     }
 
     @MessageMapping("/join-game")
     @SendTo("/topic/game-info")
-    public String joinGame(final JoinDTO joinDTO) {
-        return gameService.joinGame(joinDTO);
+    public GameDTO joinGame(final JoinRequestDTO joinRequestDTO) {
+        return gameService.joinGame(joinRequestDTO);
+    }
+
+    @MessageMapping("/start")
+    @SendTo("/topic/game-info")
+    public void start(final GameDTO gameDTO) {
+        System.out.println(gameDTO);
+        gameService.start(gameDTO);
     }
 
 }

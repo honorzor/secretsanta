@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JoinDTO {
+public class JoinRequestDTO {
     private String uuid;
-    private UserDTO userDTO;
+    private UserDTO user;
 }

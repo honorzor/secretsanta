@@ -21,18 +21,38 @@
       </div>
     </div>
 
-    <div class="row" v-show="$route.path ==='/'">
-
+    <div class="row" v-show="$route.path ==='/'" v-if="!isStarted">
       <div class="col block">
         <div class="search">
           <div class="players">
             <div class="player">
-              <input type="text" class="custom-input b-skeleton-input user">
+              <input type="text" class="custom-input b-skeleton-input user" placeholder="Введите вашу почту">
+            </div>
+            <div class="player-2">
+              <input type="text" class="custom-input b-skeleton-input uuid" placeholder="UUID игры">
             </div>
           </div>
           <div class="create-button">
-            <input type="button" @click="createEmptyGame" class="double-border-button" value="Создать игру">
-            <input type="button" @click="createGame" class="double-border-button" value="Присоединиться">
+            <input type="button" @click="create" class="double-border-button" value="Создать игру">
+            <input type="button" @click="join" class="double-border-button" value="Присоединиться">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" v-show="$route.path ==='/'" v-if="isStarted">
+      <div class="col block">
+        <div class="search">
+          <div class="players">
+            <div class="player" v-for="player in game.players" :key="player.email">
+              <input type="text" class="custom-input b-skeleton-input user" :placeholder="player.email">
+            </div>
+            <div class="player-2">
+              <input type="text" class="custom-input b-skeleton-input uuid" :placeholder="game.uuid">
+            </div>
+          </div>
+          <div class="create-button">
+            <input type="button" @click="start" class="double-border-button" value="Запустить игру">
           </div>
         </div>
       </div>
@@ -46,31 +66,62 @@
     </div>
   </div>
 
-
   </body>
   </html>
 </template>
 
 <script>
 
-import {connect, createGame, joinGame} from "@/util/WSUtil";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 export default {
+
   name: 'Main',
   mounted() {
-    connect()
+  },
+  created() {
+    this.connect()
+  },
+  data: function () {
+    return {
+      isStarted: false,
+      game: null,
+      stompClient: null
+    }
   },
   props: {
     msg: String
   },
   methods: {
-    createEmptyGame: function () {
-      const user = this.$el.querySelector('.user');
-      createGame(user.value)
+    connect: function () {
+      const socket = new SockJS('http://localhost:8081/ws-connect');
+      this.stompClient = Stomp.over(socket);
+      const copy = this;
+      this.stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        copy.stompClient.subscribe('/topic/game-info', function (message) {
+          copy.game = JSON.parse(message.body)
+        });
+      });
     },
-    createGame: function () {
-      const uuid = this.$el.querySelector('.user');
-      joinGame(uuid)
+    create: function () {
+      const email = this.$el.querySelector('.user').value;
+      this.stompClient.send("/ws/create-game", {}, JSON.stringify({"email": email, "name": email}));
+      this.isStarted = true
+    },
+    join: function () {
+      const email = this.$el.querySelector('.user').value;
+      const uuid = this.$el.querySelector('.uuid').value;
+      this.stompClient.send("/ws/join-game", {}, JSON.stringify({
+        "uuid": uuid,
+        "user": {"email": email, "name": email}
+      }));
+      this.isStarted = true
+    },
+    start: function () {
+      this.stompClient.send("/ws/start", {}, JSON.stringify(this.game));
+      this.isStarted = true
     }
 
   }

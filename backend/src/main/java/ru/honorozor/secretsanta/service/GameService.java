@@ -3,7 +3,8 @@ package ru.honorozor.secretsanta.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.honorozor.secretsanta.dto.GameDTO;
-import ru.honorozor.secretsanta.dto.JoinDTO;
+import ru.honorozor.secretsanta.dto.JoinRequestDTO;
+import ru.honorozor.secretsanta.dto.JoinResponseDTO;
 import ru.honorozor.secretsanta.dto.UserDTO;
 import ru.honorozor.secretsanta.enums.UserGiftType;
 import ru.honorozor.secretsanta.mapper.UserMapper;
@@ -23,23 +24,30 @@ public class GameService {
     private final MailTaskService mailTaskService;
     private final Map<UUID, List<UserDTO>> games = new HashMap<>();
 
-    public String joinGame(final JoinDTO joinDTO) {
-        final UUID uuid = UUID.fromString(joinDTO.getUuid());
-        games.get(uuid).add(joinDTO.getUserDTO());
-        return "присоеденился к " + joinDTO;
+    public GameDTO joinGame(final JoinRequestDTO joinRequestDTO) {
+        final UUID uuid = UUID.fromString(joinRequestDTO.getUuid());
+        final List<UserDTO> usersInGame = games.get(uuid);
+        usersInGame.add(joinRequestDTO.getUser());
+
+        return GameDTO.builder()
+                .uuid(uuid)
+                .players(new HashSet<>(usersInGame))
+                .build();
     }
 
-
-    public String createEmptyGame(final UserDTO creator) {
+    public GameDTO start(final UserDTO creator) {
         creator.setCreator(true);
-        final UUID randomLink = getRandomLink();
-        final String link = "/join/" + randomLink;
-
-        games.put(getRandomLink(), new ArrayList<>() {{
+        final UUID uuid = getRandomLink();
+        games.put(uuid, new ArrayList<>() {{
             add(creator);
         }});
 
-        return link;
+        return GameDTO.builder()
+                .uuid(uuid)
+                .players(new HashSet<>() {{
+                    add(creator);
+                }})
+                .build();
     }
 
     private UUID getRandomLink() {
@@ -47,7 +55,7 @@ public class GameService {
     }
 
 
-    public void createGame(GameDTO gameDTO) {
+    public void start(GameDTO gameDTO) {
         final List<User> users = UserMapper.INSTANCE.toEntities(gameDTO.getPlayers());
         final UserGiftSelector userGiftSelector = giftStrategySelector.getUserGiftSelector(UserGiftType.SIMPLE);
         userGiftSelector.setGifts(users);
