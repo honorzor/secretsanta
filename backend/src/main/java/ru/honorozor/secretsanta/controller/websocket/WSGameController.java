@@ -28,9 +28,9 @@ public class WSGameController {
 
     @MessageMapping("/start")
     @SendTo("/topic/game-info")
-    public void start(final GameDTO gameDTO) {
-        System.out.println(gameDTO);
+    public GameDTO start(final GameDTO gameDTO) {
         gameService.start(gameDTO);
+        return GameDTO.builder().isCreated(true).build();
     }
 
 }

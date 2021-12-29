@@ -22,4 +22,7 @@ public class GameDTO {
     private Set<UserDTO> players;
 
     private UUID uuid;
+
+    @Builder.Default
+    private boolean isCreated = false;
 }

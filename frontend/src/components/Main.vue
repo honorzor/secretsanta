@@ -25,7 +25,9 @@
       <div class="col block">
         <div class="search">
           <div class="players">
-            {{ startMessage }}
+            <div v-if="game.created">
+              {{ startMessage }}
+            </div>
             <div class="player">
               <input type="text" class="custom-input b-skeleton-input user" placeholder="Введите вашу почту">
             </div>
@@ -46,10 +48,10 @@
         <div class="search">
           <div class="players">
             <div class="player" v-for="player in game.players" :key="player.email">
-              <input type="text" class="custom-input b-skeleton-input user" :placeholder="player.email">
+              <input readonly type="text" class="custom-input b-skeleton-input user" :value="'Игрок: ' + player.email">
             </div>
             <div class="player-2">
-              <input type="text" class="custom-input b-skeleton-input uuid" :placeholder="game.uuid">
+              <input readonly type="text" class="custom-input b-skeleton-input uuid" :value="'ID: '+game.uuid">
             </div>
           </div>
           <div class="create-button">
@@ -80,16 +82,14 @@ export default {
 
   name: 'Main',
   mounted() {
-  },
-  created() {
     this.connect()
   },
   data: function () {
     return {
       isStarted: false,
-      game: null,
+      game: {game: null, players: null, created: false},
       stompClient: null,
-      startMessage: ""
+      startMessage: "Игра успешно создана"
     }
   },
   props: {
@@ -104,6 +104,9 @@ export default {
         console.log('Connected: ' + frame);
         copy.stompClient.subscribe('/topic/game-info', function (message) {
           copy.game = JSON.parse(message.body)
+          if (copy.game.started) {
+            copy.isStarted = false
+          }
         });
       });
     },
@@ -111,7 +114,6 @@ export default {
       const email = this.$el.querySelector('.user').value;
       this.stompClient.send("/ws/create-game", {}, JSON.stringify({"email": email, "name": email}));
       this.isStarted = true
-      this.startMessage = ""
     },
     join: function () {
       const email = this.$el.querySelector('.user').value;
@@ -124,8 +126,6 @@ export default {
     },
     start: function () {
       this.stompClient.send("/ws/start", {}, JSON.stringify(this.game));
-      this.isStarted = false
-      this.startMessage = "Игра успешно создана"
     }
 
   }
