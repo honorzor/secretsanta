@@ -25,6 +25,7 @@
       <div class="col block">
         <div class="search">
           <div class="players">
+            {{ startMessage }}
             <div class="player">
               <input type="text" class="custom-input b-skeleton-input user" placeholder="Введите вашу почту">
             </div>
@@ -87,7 +88,8 @@ export default {
     return {
       isStarted: false,
       game: null,
-      stompClient: null
+      stompClient: null,
+      startMessage: ""
     }
   },
   props: {
@@ -95,7 +97,7 @@ export default {
   },
   methods: {
     connect: function () {
-      const socket = new SockJS('http://localhost:8081/ws-connect');
+      const socket = new SockJS('https://secret-santa.smn-router.keenetic.pro/ws-connect');
       this.stompClient = Stomp.over(socket);
       const copy = this;
       this.stompClient.connect({}, function (frame) {
@@ -109,6 +111,7 @@ export default {
       const email = this.$el.querySelector('.user').value;
       this.stompClient.send("/ws/create-game", {}, JSON.stringify({"email": email, "name": email}));
       this.isStarted = true
+      this.startMessage = ""
     },
     join: function () {
       const email = this.$el.querySelector('.user').value;
@@ -121,7 +124,8 @@ export default {
     },
     start: function () {
       this.stompClient.send("/ws/start", {}, JSON.stringify(this.game));
-      this.isStarted = true
+      this.isStarted = false
+      this.startMessage = "Игра успешно создана"
     }
 
   }

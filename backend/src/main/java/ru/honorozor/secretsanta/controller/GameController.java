@@ -17,8 +17,13 @@ public class GameController extends AdviceGameController {
 
     private final GameService gameService;
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1"})
+    @CrossOrigin(origins = {"https://secret-santa.smn-router.keenetic.pro/"})
     public ResponseEntity<String> create(@Valid @RequestBody GameDTO gameDTO) {
         gameService.start(gameDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
