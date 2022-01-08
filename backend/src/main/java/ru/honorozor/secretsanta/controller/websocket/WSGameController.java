@@ -17,7 +17,7 @@ public class WSGameController {
     @MessageMapping("/create-game")
     @SendTo("/topic/game-info")
     public GameDTO createGame(final UserDTO creator) {
-        return gameService.start(creator);
+        return gameService.create(creator);
     }
 
     @MessageMapping("/join-game")

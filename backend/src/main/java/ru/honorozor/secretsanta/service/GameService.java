@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.honorozor.secretsanta.dto.GameDTO;
 import ru.honorozor.secretsanta.dto.JoinRequestDTO;
-import ru.honorozor.secretsanta.dto.JoinResponseDTO;
 import ru.honorozor.secretsanta.dto.UserDTO;
 import ru.honorozor.secretsanta.enums.UserGiftType;
 import ru.honorozor.secretsanta.mapper.UserMapper;
@@ -35,12 +34,11 @@ public class GameService {
                 .build();
     }
 
-    public GameDTO start(final UserDTO creator) {
+    public GameDTO create(final UserDTO creator) {
         creator.setCreator(true);
-        final UUID uuid = getRandomLink();
-        games.put(uuid, new ArrayList<>() {{
-            add(creator);
-        }});
+        final UUID uuid = UUID.randomUUID();
+        final List<UserDTO> users = new ArrayList<>(List.of(creator));
+        games.put(uuid, users);
 
         return GameDTO.builder()
                 .uuid(uuid)
@@ -49,11 +47,6 @@ public class GameService {
                 }})
                 .build();
     }
-
-    private UUID getRandomLink() {
-        return UUID.randomUUID();
-    }
-
 
     public void start(GameDTO gameDTO) {
         final List<User> users = UserMapper.INSTANCE.toEntities(gameDTO.getPlayers());
@@ -66,5 +59,6 @@ public class GameService {
         users.forEach(user -> user.setGame(game));
         gameRepository.save(game);
         mailTaskService.create(users);
+        games.remove(gameDTO.getUuid());
     }
 }
